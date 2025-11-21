@@ -1,0 +1,43 @@
+﻿# Virtual Environments
+venv/
+Phase\ 0/venv/
+Phase\ 1/venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Database
+*.db
+*.sqlite3
+Phase\ 0/data/ai_agent_system.db
+
+# Logs
+logs/
+*.log
+Phase\ 0/logs/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads
+Phase\ 0/data/uploads/
+Phase\ 0/test*.csv
+
+# Build & Cache
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
