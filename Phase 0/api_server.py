@@ -69,7 +69,11 @@ app = FastAPI(
 # Mount static files (frontend)
 try:
     from pathlib import Path
-    assets_path = Path("assets").resolve()
+    
+    # Get the Phase 0 directory where api_server.py is located
+    phase0_dir = Path(__file__).parent
+    assets_path = phase0_dir / "assets"
+    
     logger.info(f"Assets directory: {assets_path}")
     logger.info(f"Assets exists: {assets_path.exists()}")
     
@@ -81,12 +85,13 @@ try:
     
     app.mount(
         "/assets",
-        StaticFiles(directory="assets"),
+        StaticFiles(directory=str(assets_path)),
         name="assets",
     )
     logger.info("Static files mounted successfully at /assets")
 except Exception as e:
     logger.error(f"Could not mount static files: {e}", exc_info=True)
+
 
     @app.get("/favicon.ico", include_in_schema=False)
     async def favicon():
@@ -182,6 +187,21 @@ async def startup_event():
         system_state["memory_manager"] = memory_manager
         system_state["safety_guard"] = safety_guard
         system_state["initialized"] = True
+
+        # ✨ Phase 1: Initialize agents
+        try:
+            import sys
+            
+            # Add project root to Python path
+            project_root = Path(__file__).parent.parent  # Go up from Phase 0 to project root
+            sys.path.insert(0, str(project_root))
+            
+            from Phase1.startup import initialize_phase1_agents
+            phase1_init = initialize_phase1_agents(orchestrator)
+            logger.info(f"Phase 1 Status: {phase1_init['status']}")
+        except Exception as phase1_err:
+            logger.warning(f"Phase 1 initialization skipped: {phase1_err}")
+            logger.info("System running with Phase 0 only")
         
         logger.info("[OK] Application startup complete")
         
@@ -189,6 +209,7 @@ async def startup_event():
         logger.error(f"❌ Startup failed: {e}", exc_info=True)
         system_state["initialized"] = False
         raise
+
 
 
 @app.on_event("shutdown")
