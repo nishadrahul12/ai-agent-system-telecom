@@ -147,7 +147,14 @@ class TestAnalysisEndpoint(unittest.TestCase):
         )
 
         result = self.endpoint.get_task_result(task_id)
-        self.assertEqual(result, result_data)
+        
+        # Verify result contains original data plus status and task_id
+        self.assertIsNotNone(result)
+        self.assertEqual(result["status"], "completed")
+        self.assertEqual(result["task_id"], task_id)
+        self.assertEqual(result["correlation_matrix"], result_data["correlation_matrix"])
+        self.assertEqual(result["model_performance"], result_data["model_performance"])
+
 
     def test_get_task_result_failed(self) -> None:
         """Test error when retrieving failed task result."""
