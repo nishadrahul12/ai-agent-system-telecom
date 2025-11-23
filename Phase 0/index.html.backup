@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom AI Analysis System</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🔧 Telecom AI Multi-Agent System</h1>
+            <p>Local AI-Powered Analysis for Network Data</p>
+            <div id="system-status" class="status-badge"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section id="upload-section" class="card">
+                <h2>📁 Upload Data</h2>
+                <div class="upload-area" id="upload-area">
+                    <input type="file" id="file-input" accept=".csv,.xlsx,.xls" hidden>
+                    <label for="file-input" class="upload-label">
+                        <span>Drag & drop file here or click to select</span>
+                        <small>Supports: CSV, XLSX (max 1GB)</small>
+                    </label>
+                    <div id="file-info" class="file-info hidden"></div>
+                </div>
+            </section>
+
+            <!-- Analysis Section -->
+            <section id="analysis-section" class="card hidden">
+                <h2>🔬 Select Analysis</h2>
+                <div class="analysis-options">
+                    <button class="btn btn-primary" data-agent="correlation">
+                        <span>📊 Correlation Analysis</span>
+                    </button>
+                    <button class="btn btn-primary" data-agent="forecasting">
+                        <span>📈 Traffic Forecasting</span>
+                    </button>
+                    <button class="btn btn-primary" data-agent="anomaly">
+                        <span>⚠️ Anomaly Detection</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Status Section -->
+            <section id="status-section" class="card hidden">
+                <h2>⏳ Task Status</h2>
+                <div id="task-status" class="task-status">
+                    <p>Task ID: <code id="task-id">-</code></p>
+                    <p>Status: <span id="status-badge" class="badge badge-pending">Pending</span></p>
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="poll-button">Check Status</button>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="card hidden">
+                <h2>✅ Results</h2>
+                <div id="results-container"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Phase 0: Core Infrastructure | v0.1.0</p>
+            <p><small>Data processed locally. No cloud transmission.</small></p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
