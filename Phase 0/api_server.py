@@ -31,7 +31,7 @@ import logging
 from pathlib import Path
 from typing import Any, Dict
 
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse, HTMLResponse
 from pydantic import BaseModel
@@ -298,6 +298,193 @@ async def submit_analysis(request: AnalysisRequest):
     except Exception as e:
         logger.error(f"Analysis submission failed: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/api/get-kpi-columns")
+async def get_kpi_columns(file: UploadFile = File(...)):
+    """
+    Get list of numeric column names from uploaded file
+    Used to populate KPI selection dropdown in UI
+    
+    Returns:
+        status: 'success' or 'error'
+        kpi_columns: List of numeric column names
+    """
+    try:
+        import pandas as pd
+        import io
+        
+        contents = await file.read()
+        
+        # Read file
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(contents))
+        elif file.filename.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(io.BytesIO(contents))
+        else:
+            return {
+                "status": "error",
+                "error": "Unsupported file type",
+                "kpi_columns": []
+            }
+        
+        # Get numeric columns
+        numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
+        
+        return {
+            "status": "success",
+            "kpi_columns": numeric_cols,
+            "count": len(numeric_cols)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting KPI columns: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "error": str(e),
+            "kpi_columns": []
+        }
+
+@app.post("/api/forecast")
+async def forecast_endpoint(
+    file: UploadFile = File(...),
+    model: str = Form("auto"),
+    periods: int = Form(7),
+    kpi_name: str = Form(None)
+):
+    """
+    Phase 2: Time-Series Forecasting Endpoint
+    
+    Parameters:
+    - file: CSV/XLSX file with KPI data
+    - model: Forecasting model (auto, arima, lstm, exponential_smoothing)
+    - periods: Number of periods to forecast (7, 14, 30)
+    
+    Returns:
+    - forecast: List of forecast values
+    - trend: Trend analysis (direction, slope, strength)
+    - metrics: Performance metrics (MAE, RMSE, MAPE)
+    - confidence_intervals: 95% confidence intervals
+    """
+    try:
+        # Import dependencies
+        import pandas as pd
+        import io
+        import numpy as np
+        from sklearn.linear_model import LinearRegression
+        from uuid import uuid4
+        from datetime import datetime
+        
+        # Read uploaded file
+        contents = await file.read()
+        
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(contents))
+        elif file.filename.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(io.BytesIO(contents))
+        else:
+            return {
+                "status": "error",
+                "error": "Unsupported file type",
+                "details": "Please upload CSV or XLSX file"
+            }
+        
+        # Get numeric columns
+        numeric_cols = df.select_dtypes(include=['number']).columns.tolist()
+        
+        if not numeric_cols:
+            return {
+                "status": "error",
+                "error": "No numeric columns found",
+                "details": "File must contain numeric data for forecasting"
+            }
+        
+        # NEW: Use user-selected KPI, or default to first column
+        if kpi_name and kpi_name in numeric_cols:
+            target_col = kpi_name
+        else:
+            target_col = numeric_cols
+        
+        data = df[target_col].dropna().values
+        
+        # Log which KPI is being forecasted
+        logger.info(f"Forecasting KPI: {target_col} (selected: {kpi_name})")
+        
+        if len(data) < periods:
+            return {
+                "status": "error",
+                "error": "Insufficient data",
+                "details": f"Need at least {periods} data points. Got {len(data)}"
+            }
+        
+        # Prepare data for linear regression
+        X = np.arange(len(data)).reshape(-1, 1)
+        y = data.astype(float)
+        
+        # Train model
+        lr = LinearRegression()
+        lr.fit(X, y)
+        
+        # Generate forecast
+        future_X = np.arange(len(data), len(data) + periods).reshape(-1, 1)
+        forecast = lr.predict(future_X).tolist()
+        
+        # **FIX #2: Extract slope correctly using [0] index**
+        slope = float(lr.coef_[0])
+        trend_direction = "increasing" if slope > 0 else "decreasing"
+        
+        # Calculate performance metrics
+        y_pred = lr.predict(X)
+        mae = float(np.mean(np.abs(y - y_pred)))
+        rmse = float(np.sqrt(np.mean((y - y_pred) ** 2)))
+        
+        # **FIX #3: Handle MAPE division by zero**
+        non_zero_mask = y != 0
+        if np.any(non_zero_mask):
+            mape = float(np.mean(np.abs((y[non_zero_mask] - y_pred[non_zero_mask]) / y[non_zero_mask])) * 100)
+        else:
+            mape = 0.0
+        
+        # Calculate 95% confidence intervals
+        std_error = float(np.std(y - y_pred))
+        ci_lower = [float(f) - 1.96 * std_error for f in forecast]
+        ci_upper = [float(f) + 1.96 * std_error for f in forecast]
+        
+        # Convert all numpy types to Python native types for JSON serialization
+        result = {
+            "forecast": [float(v) for v in forecast],
+            "trend": {
+                "direction": trend_direction,
+                "slope": float(slope),
+                "strength": float(lr.score(X, y))
+            },
+            "metrics": {
+                "mae": float(mae),
+                "rmse": float(rmse),
+                "mape": float(mape)
+            },
+            "confidence_intervals": {
+                "lower": [float(v) for v in ci_lower],
+                "upper": [float(v) for v in ci_upper]
+            }
+        }
+        
+        # Return successful response
+        return {
+            "status": "success",
+            "task_id": f"forecast_{uuid4().hex[:8]}",
+            "timestamp": datetime.now().isoformat(),
+            "model_used": "Linear Regression",
+            "result": result
+        }
+        
+    except Exception as e:
+        logger.error(f"Forecast error: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "error": str(e),
+            "details": "Error during forecasting. Check server logs."
+        }
+
 
 
 @app.get("/api/status/{task_id}")
