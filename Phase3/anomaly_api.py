@@ -12,10 +12,13 @@ from typing import Optional
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
+
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Query
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from llm_service_ollama import OllamaLLMService
+
 
 from anomaly_models import (
     AnalysisParameters,
@@ -54,6 +57,13 @@ app = FastAPI(
     title="Telecom Anomaly Detection API",
     description="Phase 3 - Real-time anomaly detection for telecom networks",
     version="1.0.0"
+)
+
+llm_service = OllamaLLMService(
+    model="llama2",
+    timeout=120,
+    max_tokens=256,
+    enable_cache=True
 )
 
 # ============================================================================
@@ -600,6 +610,230 @@ async def shutdown_event():
 async def root():
     """Serve dashboard homepage."""
     return FileResponse("static/index.html")
+
+# ============================================================================
+# ADD THIS NEW ENDPOINT TO anomaly_api.py
+# ============================================================================
+
+@app.get("/api/anomalies/llm_analysis/{task_id}")
+async def get_llm_analysis(task_id: str):
+    """
+    Get AI-powered natural language analysis for anomaly results
+    
+    ENDPOINT: GET /api/anomalies/llm_analysis/{task_id}
+    
+    Returns:
+    {
+        "task_id": "task_20251124_190857_WS9H5",
+        "status": "success",
+        "timestamp": "2025-11-24T19:10:00Z",
+        "ollama_available": true,
+        "analysis": {
+            "explanation": "Your network detected...",
+            "recommendations": ["1. Priority: ...", "2. ..."],
+            "executive_summary": "Network health improved..."
+        },
+        "statistics": {
+            "api_calls": 3,
+            "cache_hits": 1,
+            "total_tokens": 245
+        }
+    }
+    """
+    
+    try:
+        # Load results from disk
+        result = load_result_from_disk(task_id)
+        if not result:
+            raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+        
+        # Check if Ollama is available
+        ollama_available = llm_service.is_available()
+        
+        if not ollama_available:
+            logger.warning(f"⚠️  Ollama not available for task {task_id}")
+            return {
+                "task_id": task_id,
+                "status": "ollama_unavailable",
+                "message": "Ollama service is not running. Start with: ollama serve",
+                "ollama_available": False
+            }
+        
+        # Extract data for LLM
+        network_class = result.get("network_classification", {})
+        anomalies_list = result.get("anomalies", [])
+        summary = result.get("summary", {})
+        
+        total_anomalies = network_class.get("total_anomalies", 0)
+        critical_count = network_class.get("critical_count", 0)
+        warning_count = network_class.get("warning_count", 0)
+        
+        # Get top affected KPIs
+        anomalies_by_kpi = summary.get("anomalies_by_kpi", {})
+        top_anomalies = [
+            {"kpi_name": kpi, "count": count}
+            for kpi, count in sorted(anomalies_by_kpi.items(), key=lambda x: x[1], reverse=True)[:5]
+        ]
+        
+        # Determine trend
+        trend = "stable"
+        if total_anomalies < 50:
+            trend = "improving"
+        elif total_anomalies > 100:
+            trend = "worsening"
+        
+        # Calculate health score (0-100)
+        health_score = max(0, 100 - (critical_count * 10 + warning_count * 2))
+        
+        # Get most affected KPI
+        most_affected_kpi = top_anomalies[0]["kpi_name"] if top_anomalies else "Multiple KPIs"
+        
+        logger.info(f"🔄 Generating LLM analysis for task {task_id}...")
+        
+        # Generate explanations for top anomalies
+        explanations = []
+        for anomaly in anomalies_list[:3]:  # Top 3 anomalies only (faster)
+            if anomaly.get('severity') in ['critical', 'warning']:
+                explanation = llm_service.generate_explanation(
+                    kpi_name=anomaly.get("kpi", "Unknown"),
+                    anomaly_count=1,  # Single anomaly explanation
+                    severity=anomaly.get("severity", "warning"),
+                    z_score=anomaly.get("z_score", 0),
+                    method=anomaly.get("method", "Unknown")
+                )
+                explanations.append(explanation)
+        
+        # Generate recommendations
+        recommendations = llm_service.generate_recommendations(
+            top_anomalies=top_anomalies,
+            health_score=health_score,
+            trend=trend,
+            critical_count=critical_count
+        )
+        
+        # Generate executive summary
+        executive_summary = llm_service.generate_summary(
+            total_anomalies=total_anomalies,
+            critical_count=critical_count,
+            warning_count=warning_count,
+            health_trend=trend,
+            most_affected_kpi=most_affected_kpi
+        )
+        
+        # Build response
+        response = {
+            "task_id": task_id,
+            "status": "success",
+            "timestamp": datetime.now().isoformat(),
+            "ollama_available": True,
+            "analysis": {
+                "executive_summary": executive_summary,
+                "top_anomaly_explanations": explanations,
+                "recommendations": recommendations,
+                "network_status": {
+                    "health_score": health_score,
+                    "total_anomalies": total_anomalies,
+                    "critical": critical_count,
+                    "warning": warning_count,
+                    "trend": trend
+                }
+            },
+            "llm_service_stats": llm_service.get_stats(),
+            "generated_at": datetime.now().isoformat()
+        }
+        
+        logger.info(f"✅ LLM analysis complete for task {task_id}")
+        return response
+    
+    except Exception as e:
+        logger.error(f"❌ LLM analysis failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"LLM analysis failed: {str(e)}"
+        )
+
+
+# ============================================================================
+# ADD THIS NEW ENDPOINT FOR LLM STATUS
+# ============================================================================
+
+@app.get("/api/llm/status")
+async def get_llm_status():
+    """
+    Get LLM service status and statistics
+    
+    ENDPOINT: GET /api/llm/status
+    
+    Returns:
+    {
+        "service": "Ollama",
+        "available": true,
+        "model": "llama2",
+        "status": "ready",
+        "statistics": {
+            "total_calls": 25,
+            "cached_calls": 10,
+            "cache_hit_rate": 40.0,
+            "total_tokens": 5240,
+            "avg_response_time": 38.5
+        }
+    }
+    """
+    
+    available = llm_service.is_available()
+    models = llm_service.get_available_models() if available else []
+    
+    return {
+        "service": "Ollama",
+        "model": llm_service.model,
+        "available": available,
+        "status": "ready" if available else "unavailable",
+        "base_url": llm_service.base_url,
+        "models_available": models,
+        "configuration": {
+            "max_tokens": llm_service.max_tokens,
+            "timeout": llm_service.timeout,
+            "temperature": llm_service.temperature,
+            "cache_enabled": llm_service.enable_cache
+        },
+        "statistics": llm_service.get_stats(),
+        "timestamp": datetime.now().isoformat()
+    }
+
+
+# ============================================================================
+# ADD THIS NEW ENDPOINT FOR CACHE MANAGEMENT
+# ============================================================================
+
+@app.post("/api/llm/clear-cache")
+async def clear_llm_cache():
+    """
+    Clear LLM response cache
+    
+    ENDPOINT: POST /api/llm/clear-cache
+    
+    Returns:
+    {
+        "status": "success",
+        "message": "Cache cleared",
+        "cache_size_before": 15,
+        "cache_size_after": 0
+    }
+    """
+    
+    cache_size_before = len(llm_service.response_cache)
+    llm_service.clear_cache()
+    cache_size_after = len(llm_service.response_cache)
+    
+    logger.info(f"Cache cleared: {cache_size_before} -> {cache_size_after}")
+    
+    return {
+        "status": "success",
+        "message": "LLM response cache cleared",
+        "cache_size_before": cache_size_before,
+        "cache_size_after": cache_size_after,
+        "timestamp": datetime.now().isoformat()
+    }
 
 
 if __name__ == "__main__":

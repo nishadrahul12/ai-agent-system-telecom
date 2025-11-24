@@ -1,0 +1,19 @@
+{
+  "task_id": "task_20251125_003230_EJNY8",
+  "filename": "task_20251125_003230_EJNY8.csv",
+  "file_size_bytes": 37588,
+  "format": "csv",
+  "sensitivity": "medium",
+  "methods": [
+    "z_score",
+    "iqr",
+    "isolation_forest"
+  ],
+  "created_at": "2025-11-25T00:32:30.831822",
+  "started_at": "2025-11-25T00:32:30.832820",
+  "completed_at": "2025-11-25T00:32:31.069888",
+  "status": "completed",
+  "error_message": null,
+  "data_points": 31,
+  "kpis_count": 60
+}
