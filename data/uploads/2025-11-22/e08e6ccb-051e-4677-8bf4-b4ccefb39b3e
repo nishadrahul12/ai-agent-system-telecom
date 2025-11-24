@@ -1,0 +1,4 @@
+traffic,prb_util,latency,drop_rate
+100,80,15,0.5
+150,85,20,0.8
+200,90,25,1.2
