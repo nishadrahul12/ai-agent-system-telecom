@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Anomaly Detection Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        /* Fallback styles if CSS doesn't load */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #F5F7FA;
+            color: #212121;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>📊 Telecom Anomaly Detection</h1>
+                    <p>Real-time Network Anomaly Analysis</p>
+                </div>
+                <div class="status-indicator">
+                    <span id="api-status" class="status-dot"></span>
+                    <span id="api-status-text">Checking...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            
+            <!-- LEFT PANEL: UPLOAD & SETTINGS -->
+            <div class="panel upload-panel">
+                <h2>📁 Upload & Analyze</h2>
+                
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📤</div>
+                        <h3>Drag & Drop File Here</h3>
+                        <p>or click to select</p>
+                        <p class="small-text">Supports: CSV, XLSX (Max 5GB)</p>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx" hidden>
+                    </div>
+                    <div class="file-info" id="fileInfo" style="display:none;">
+                        <p><strong>File:</strong> <span id="fileName"></span></p>
+                        <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <label for="sensitivity" class="label">Detection Sensitivity:</label>
+                    <select id="sensitivity" class="input-select">
+                        <option value="low">🟢 Low (Fewer anomalies)</option>
+                        <option value="medium" selected>🟡 Medium (Balanced)</option>
+                        <option value="high">🔴 High (More sensitive)</option>
+                    </select>
+
+                    <label for="methods" class="label">Detection Methods:</label>
+                    <div class="methods-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="methods" value="z_score" checked> Z-Score
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="methods" value="iqr" checked> IQR
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="methods" value="isolation_forest" checked> Isolation Forest
+                        </label>
+                    </div>
+                </div>
+
+                <button id="analyzeBtn" class="btn btn-primary btn-full" disabled>
+                    ▶️ Start Analysis
+                </button>
+
+                <div id="progressSection" class="progress-section" style="display:none;">
+                    <p><strong>Status:</strong> <span id="taskStatus">Starting...</span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText" class="progress-text">0%</p>
+                    <button id="cancelBtn" class="btn btn-secondary btn-small">Cancel Task</button>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: RESULTS -->
+            <div class="panel results-panel">
+                <h2>📈 Analysis Results</h2>
+                
+                <div id="noResults" class="no-results">
+                    <p>👈 Upload a file to start analysis</p>
+                </div>
+
+                <div id="resultsSection" style="display:none;">
+                    
+                    <!-- NETWORK STATUS CARD -->
+                    <div class="card status-card">
+                        <h3>Network Status</h3>
+                        <div class="status-display">
+                            <div class="status-value" id="statusValue">—</div>
+                            <div class="status-details">
+                                <p>🔴 Critical: <span id="criticalCount">0</span></p>
+                                <p>🟡 Warning: <span id="warningCount">0</span></p>
+                                <p>✅ Total Anomalies: <span id="totalAnomalies">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUMMARY STATS -->
+                    <div class="card summary-card">
+                        <h3>Summary Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat">
+                                <label>Data Points</label>
+                                <span id="dataPoints">0</span>
+                            </div>
+                            <div class="stat">
+                                <label>KPIs Analyzed</label>
+                                <span id="kpisAnalyzed">0</span>
+                            </div>
+                            <div class="stat">
+                                <label>Analysis Time</label>
+                                <span id="analysisTime">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ANOMALIES BY METHOD -->
+                    <div class="card">
+                        <h3>Anomalies by Detection Method</h3>
+                        <div class="method-stats">
+                            <div class="method-item">
+                                <span>Z-Score:</span>
+                                <span id="method-z_score" class="badge">0</span>
+                            </div>
+                            <div class="method-item">
+                                <span>IQR:</span>
+                                <span id="method-iqr" class="badge">0</span>
+                            </div>
+                            <div class="method-item">
+                                <span>Isolation Forest:</span>
+                                <span id="method-isolation_forest" class="badge">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOP AFFECTED KPIs -->
+                    <div class="card">
+                        <h3>Top Affected KPIs</h3>
+                        <div id="topKpis" class="kpi-list">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- ACTION BUTTONS -->
+                    <div class="button-group">
+                        <button id="viewDetailsBtn" class="btn btn-secondary">View Anomalies</button>
+                        <button id="downloadBtn" class="btn btn-secondary">Export & Report</button>
+                        <button id="newAnalysisBtn" class="btn btn-primary">New Analysis</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ANOMALIES MODAL -->
+        <div id="anomaliesModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Detected Anomalies</h2>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="anomalies-filters">
+                        <input type="text" id="anomalySearch" placeholder="Search KPI..." class="input-text">
+                        <select id="severityFilter" class="input-select">
+                            <option value="">All Severities</option>
+                            <option value="critical">🔴 Critical</option>
+                            <option value="warning">🟡 Warning</option>
+                            <option value="normal">✅ Normal</option>
+                        </select>
+                    </div>
+                    <table class="anomalies-table">
+                        <thead>
+                            <tr>
+                                <th>KPI</th>
+                                <th>Value</th>
+                                <th>Normalized</th>
+                                <th>Severity</th>
+                                <th>Method</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="anomaliesBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TASK HISTORY MODAL -->
+        <div id="historyModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Task History</h2>
+                    <button class="modal-close" id="closeHistory">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="taskHistoryList" class="task-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Phase 3 - Telecom Anomaly Detection System | API Status: <span id="footerApiStatus">Offline</span></p>
+                <button id="historyBtn" class="btn btn-small">📋 Task History</button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script src="/static/chart_extensions.js"></script>
+</body>
+</html>
+
+<!-- EXPORT OPTIONS MODAL -->
+<div id="exportModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Export & Report</h2>
+            <button class="modal-close" id="closeExport">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="export-options">
+                <div class="export-section">
+                    <h3>📁 Download Formats</h3>
+                    <div class="export-buttons">
+                        <button id="exportCsvBtn" class="btn btn-primary btn-export">
+                            📊 Download as CSV
+                        </button>
+                        <button id="exportJsonBtn" class="btn btn-primary btn-export">
+                            📄 Download as JSON
+                        </button>
+                        <button id="exportPdfBtn" class="btn btn-primary btn-export">
+                            📋 Generate PDF Report
+                        </button>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <h3>📧 Email Report</h3>
+                    <div class="email-form">
+                        <input 
+                            type="email" 
+                            id="emailRecipient" 
+                            class="input-text" 
+                            placeholder="Enter email address"
+                        >
+                        <button id="sendEmailBtn" class="btn btn-primary btn-full" style="margin-top: 10px;">
+                            📧 Send Report via Email
+                        </button>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <h3>⚙️ Export Settings</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeAnomalies" checked>
+                        Include Detailed Anomalies
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeSummary" checked>
+                        Include Summary Statistics
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeMetadata" checked>
+                        Include Metadata
+                    </label>
+                </div>
+            </div>
+
+            <div id="exportStatus" class="export-status" style="display:none;">
+                <p id="exportStatusText"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EXPORT BUTTON (Add to results section) -->
+<!-- This button should be placed in the button-group at the bottom of results -->
+<!-- Change the original button-group to: -->
+<!--
+<div class="button-group">
+    <button id="viewDetailsBtn" class="btn btn-secondary">View Anomalies</button>
+    <button id="downloadBtn" class="btn btn-secondary">Export & Report</button>
+    <button id="newAnalysisBtn" class="btn btn-primary">New Analysis</button>
+</div>
+-->
+
+<style>
+/* Export Modal Styles */
+.export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.export-section {
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid #2196F3;
+}
+
+.export-section h3 {
+    margin: 0 0 15px 0;
+    color: #1976D2;
+    font-size: 16px;
+}
+
+.export-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.btn-export {
+    padding: 10px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.export-status {
+    padding: 15px;
+    background: #e8f5e9;
+    border: 1px solid #4caf50;
+    border-radius: 6px;
+    margin-top: 15px;
+    color: #2e7d32;
+}
+
+.export-status.error {
+    background: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+@media (max-width: 768px) {
+    .export-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+        <!-- CHARTS & ANALYTICS PANELS -->
+        <div id="chartsSection" style="display:none;">
+            
+            <!-- TABS FOR DIFFERENT VIEWS -->
+            <div class="tabs-container">
+                <div class="tabs-buttons">
+                    <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+                    <button class="tab-btn" data-tab="trends">📈 Trends</button>
+                    <button class="tab-btn" data-tab="insights">💡 Insights</button>
+                    <button class="tab-btn" data-tab="comparison">🔄 Comparison</button>
+                </div>
+            </div>
+
+            <!-- TAB 1: OVERVIEW -->
+            <div class="tab-content active" id="overview">
+                <div class="charts-grid">
+                    <!-- Severity Distribution -->
+                    <div class="chart-container">
+                        <h3>Anomalies by Severity</h3>
+                        <canvas id="severityChart"></canvas>
+                    </div>
+
+                    <!-- Detection Methods -->
+                    <div class="chart-container">
+                        <h3>Anomalies by Method</h3>
+                        <canvas id="methodChart"></canvas>
+                    </div>
+
+                    <!-- Network Health -->
+                    <div class="chart-container">
+                        <h3>Network Health Score</h3>
+                        <div id="healthScoreContainer" style="text-align: center; padding: 20px;">
+                            <div id="healthScore" style="font-size: 48px; font-weight: bold; color: #2196F3;"></div>
+                            <p id="healthStatus"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Affected KPIs -->
+                <div class="chart-container full-width">
+                    <h3>Top 10 Affected KPIs</h3>
+                    <canvas id="topKpisChart"></canvas>
+                </div>
+
+                <!-- Trends Over Time -->
+                <div class="chart-container full-width">
+                    <h3>Anomaly Trends</h3>
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- TAB 2: TRENDS -->
+            <div class="tab-content" id="trends">
+                <div class="insights-container">
+                    <h3>📈 Trend Analysis</h3>
+                    <div id="trendAnalysisContent"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: INSIGHTS -->
+            <div class="tab-content" id="insights">
+                <div class="insights-container">
+                    <h3>💡 AI-Generated Insights</h3>
+                    <div id="recommendationsContainer"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: COMPARISON -->
+            <div class="tab-content" id="comparison">
+                <div class="comparison-container">
+                    <h3>🔄 Compare with Previous Analysis</h3>
+                    <button id="selectPreviousBtn" class="btn btn-secondary">Select Previous Analysis</button>
+                    <div id="comparisonContent" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>

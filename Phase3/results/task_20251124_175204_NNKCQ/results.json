@@ -1,0 +1,1319 @@
+{
+  "task_id": "task_20251124_175204_NNKCQ",
+  "status": "completed",
+  "timestamp": "2025-11-24T17:52:05.100535",
+  "summary": {
+    "detection_timestamp": "2025-11-24T17:52:05.098536",
+    "sensitivity": "medium",
+    "methods_used": [
+      "z_score",
+      "iqr",
+      "isolation_forest"
+    ],
+    "data_points_analyzed": 31,
+    "kpis_analyzed": 60,
+    "network_status": {
+      "network_status": "critical",
+      "critical_count": 20,
+      "warning_count": 104,
+      "total_anomalies": 124,
+      "affected_kpis": [
+        "RSRP_Avg",
+        "Comp Cont based RACH stp SR",
+        "Max PDCP Thr DL",
+        "E-UTRAN avg IP sched thp UL; QCI8",
+        "Avg DL nonGBR IP thp CA active UEs 4 CCS",
+        "Avg SINR for PUSCH",
+        "RRC_CONNECTED_UE_AVG",
+        "Avg SINR for PUCCH",
+        "Avg MCS PUSCH trans",
+        "DL MAC PDU VOL SCell",
+        "Avg MCS PDSCH trans",
+        "E-UTRAN PDCP SDU UL QCI1 LR",
+        "ERAB Stp Att; QCI1",
+        "RACH stp att",
+        "AVG_HARQ_DELAY_QCI1_UL",
+        "E-RAB SAtt",
+        "Avg PRB usage per TTI UL",
+        "RLC_PDU_DL_VOL_CA_PCELL",
+        "E-UTRAN avg IP sched thp DL; QCI8",
+        "CA_UE_Scell_CONF_SCell_AVG",
+        "QCI1 BLER; DL",
+        "NUM_NON_CA_UE_SERV_CELL_AVG",
+        "Avg PDCP SDU Delay DL QCI1",
+        "NUM_CA_UE_SERV_CELL_AVG",
+        "E-RAB Stp Att; QCI8",
+        "Total DL RLC Volume 1",
+        "E-UTRAN avg RRC conn UEs",
+        "ATT_INTRA_ENB_HO",
+        "PDCP_PDU_X2_DL_SCG",
+        "LTE Interference Power (Ave PUSCH)",
+        "E-UTRAN Inter-Freq HO SR",
+        "Max PDCP Thr UL",
+        "E-UTRAN Intra-Freq HO SR",
+        "PDCP SDU Volume; UL",
+        "Intra eNB HO SR",
+        "RRC conn stp SR",
+        "E-UTRAN Avg PRB usage per TTI DL",
+        "RACH Stp Completion SR",
+        "ERAB DR; RAN View; QCI1",
+        "Average CQI",
+        "Avg DL nonGBR IP thp CA active UEs 2 CCS",
+        "PDCP SDU Volume; DL",
+        "ERAB Stp SR; QCI1",
+        "E-UTRAN PDCP SDU DL QCI1 LR",
+        "RLC_VOL_DL_SRB_DRB_NON_CA",
+        "QCI1 BLER; UL",
+        "RRC stp att",
+        "Avg UE PWR Headroom PUSCH",
+        "Avg Latency DL",
+        "Measured_RSRP_AVE",
+        "inter eNB E-UTRAN HO SR X2",
+        "RLC_VOL_DL_DRB_SCELL_UE",
+        "Avg nbr UEs in serv cell"
+      ],
+      "affected_kpi_count": 53
+    },
+    "anomalies_by_method": {
+      "z_score": 83,
+      "iqr": 38,
+      "isolation_forest": 3
+    },
+    "anomalies_by_kpi": {
+      "RACH stp att": 1,
+      "RACH Stp Completion SR": 3,
+      "Comp Cont based RACH stp SR": 2,
+      "RRC stp att": 4,
+      "RRC conn stp SR": 4,
+      "E-UTRAN avg RRC conn UEs": 2,
+      "RRC_CONNECTED_UE_AVG": 1,
+      "E-RAB SAtt": 4,
+      "E-RAB Stp Att; QCI8": 3,
+      "E-UTRAN Inter-Freq HO SR": 1,
+      "E-UTRAN Intra-Freq HO SR": 3,
+      "ATT_INTRA_ENB_HO": 3,
+      "Intra eNB HO SR": 2,
+      "inter eNB E-UTRAN HO SR X2": 4,
+      "E-UTRAN avg IP sched thp DL; QCI8": 1,
+      "E-UTRAN avg IP sched thp UL; QCI8": 1,
+      "E-UTRAN Avg PRB usage per TTI DL": 1,
+      "Avg PRB usage per TTI UL": 8,
+      "PDCP SDU Volume; DL": 1,
+      "PDCP SDU Volume; UL": 2,
+      "ERAB Stp Att; QCI1": 1,
+      "ERAB Stp SR; QCI1": 3,
+      "ERAB DR; RAN View; QCI1": 2,
+      "DL MAC PDU VOL SCell": 1,
+      "CA_UE_Scell_CONF_SCell_AVG": 2,
+      "NUM_CA_UE_SERV_CELL_AVG": 1,
+      "NUM_NON_CA_UE_SERV_CELL_AVG": 4,
+      "Avg nbr UEs in serv cell": 1,
+      "RLC_PDU_DL_VOL_CA_PCELL": 2,
+      "RLC_VOL_DL_DRB_SCELL_UE": 1,
+      "RLC_VOL_DL_SRB_DRB_NON_CA": 1,
+      "PDCP_PDU_X2_DL_SCG": 7,
+      "Total DL RLC Volume 1": 1,
+      "Average CQI": 2,
+      "Avg SINR for PUCCH": 9,
+      "Avg SINR for PUSCH": 3,
+      "Avg MCS PDSCH trans": 2,
+      "Avg MCS PUSCH trans": 1,
+      "Avg UE PWR Headroom PUSCH": 2,
+      "LTE Interference Power (Ave PUSCH)": 2,
+      "E-UTRAN PDCP SDU DL QCI1 LR": 2,
+      "E-UTRAN PDCP SDU UL QCI1 LR": 2,
+      "QCI1 BLER; DL": 2,
+      "QCI1 BLER; UL": 3,
+      "Avg PDCP SDU Delay DL QCI1": 1,
+      "AVG_HARQ_DELAY_QCI1_UL": 2,
+      "Avg Latency DL": 1,
+      "Max PDCP Thr DL": 1,
+      "Max PDCP Thr UL": 1,
+      "RSRP_Avg": 2,
+      "Measured_RSRP_AVE": 3,
+      "Avg DL nonGBR IP thp CA active UEs 2 CCS": 2,
+      "Avg DL nonGBR IP thp CA active UEs 4 CCS": 3
+    },
+    "total_anomalies": 124
+  },
+  "anomalies": [
+    {
+      "kpi": "RACH stp att",
+      "value": 9086970777.0,
+      "normalized_value": -2.509570429595413,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.509570429595413,
+      "index": 23
+    },
+    {
+      "kpi": "RACH Stp Completion SR",
+      "value": 96.96,
+      "normalized_value": -2.173063706946317,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.173063706946317,
+      "index": 22
+    },
+    {
+      "kpi": "RACH Stp Completion SR",
+      "value": 96.86,
+      "normalized_value": -2.5417827814692044,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.5417827814692044,
+      "index": 23
+    },
+    {
+      "kpi": "Comp Cont based RACH stp SR",
+      "value": 85.57,
+      "normalized_value": -2.0450922310905395,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0450922310905395,
+      "index": 22
+    },
+    {
+      "kpi": "Comp Cont based RACH stp SR",
+      "value": 85.25,
+      "normalized_value": -2.3718853195637615,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3718853195637615,
+      "index": 23
+    },
+    {
+      "kpi": "RRC stp att",
+      "value": 4118754995.0,
+      "normalized_value": -2.170018912221343,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.170018912221343,
+      "index": 2
+    },
+    {
+      "kpi": "RRC stp att",
+      "value": 4097489162.0,
+      "normalized_value": -2.335110567078889,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.335110567078889,
+      "index": 9
+    },
+    {
+      "kpi": "RRC conn stp SR",
+      "value": 99.72,
+      "normalized_value": -2.2622521325833724,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2622521325833724,
+      "index": 23
+    },
+    {
+      "kpi": "RRC conn stp SR",
+      "value": 99.72,
+      "normalized_value": -2.2622521325833724,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2622521325833724,
+      "index": 30
+    },
+    {
+      "kpi": "E-UTRAN avg RRC conn UEs",
+      "value": 15.34,
+      "normalized_value": -2.4095310521200424,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.4095310521200424,
+      "index": 9
+    },
+    {
+      "kpi": "RRC_CONNECTED_UE_AVG",
+      "value": 15.41,
+      "normalized_value": -2.367531311781581,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.367531311781581,
+      "index": 9
+    },
+    {
+      "kpi": "E-RAB SAtt",
+      "value": 5831340398.0,
+      "normalized_value": -2.194721130352389,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.194721130352389,
+      "index": 1
+    },
+    {
+      "kpi": "E-RAB SAtt",
+      "value": 5773921440.0,
+      "normalized_value": -2.4269632463833917,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.4269632463833917,
+      "index": 2
+    },
+    {
+      "kpi": "E-RAB Stp Att; QCI8",
+      "value": 3233248993.0,
+      "normalized_value": -2.3282839547938474,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3282839547938474,
+      "index": 2
+    },
+    {
+      "kpi": "E-RAB Stp Att; QCI8",
+      "value": 3265424598.0,
+      "normalized_value": -2.010280761130136,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.010280761130136,
+      "index": 9
+    },
+    {
+      "kpi": "E-UTRAN Inter-Freq HO SR",
+      "value": 95.79,
+      "normalized_value": -2.451279298067133,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.451279298067133,
+      "index": 2
+    },
+    {
+      "kpi": "E-UTRAN Intra-Freq HO SR",
+      "value": 99.12,
+      "normalized_value": -2.3111547007627893,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3111547007627893,
+      "index": 23
+    },
+    {
+      "kpi": "E-UTRAN Intra-Freq HO SR",
+      "value": 99.11,
+      "normalized_value": -2.6572696559497584,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.6572696559497584,
+      "index": 30
+    },
+    {
+      "kpi": "ATT_INTRA_ENB_HO",
+      "value": 550528779.0,
+      "normalized_value": -2.0465169178332054,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0465169178332054,
+      "index": 1
+    },
+    {
+      "kpi": "ATT_INTRA_ENB_HO",
+      "value": 546785212.0,
+      "normalized_value": -2.150737419395102,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.150737419395102,
+      "index": 2
+    },
+    {
+      "kpi": "ATT_INTRA_ENB_HO",
+      "value": 699156638.0,
+      "normalized_value": 2.0912666482284776,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0912666482284776,
+      "index": 28
+    },
+    {
+      "kpi": "Intra eNB HO SR",
+      "value": 97.73,
+      "normalized_value": -3.0144815018031195,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 3.0144815018031195,
+      "index": 30
+    },
+    {
+      "kpi": "inter eNB E-UTRAN HO SR X2",
+      "value": 98.6,
+      "normalized_value": -2.3309871163532567,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3309871163532567,
+      "index": 23
+    },
+    {
+      "kpi": "inter eNB E-UTRAN HO SR X2",
+      "value": 98.57,
+      "normalized_value": -2.983944350753515,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.983944350753515,
+      "index": 30
+    },
+    {
+      "kpi": "E-UTRAN avg IP sched thp DL; QCI8",
+      "value": 16577.15,
+      "normalized_value": -2.0991501625863127,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0991501625863127,
+      "index": 30
+    },
+    {
+      "kpi": "E-UTRAN avg IP sched thp UL; QCI8",
+      "value": 860.49,
+      "normalized_value": -2.3713763888475548,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3713763888475548,
+      "index": 23
+    },
+    {
+      "kpi": "E-UTRAN Avg PRB usage per TTI DL",
+      "value": 26.0,
+      "normalized_value": 2.000851462625793,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.000851462625793,
+      "index": 30
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.04,
+      "normalized_value": 2.101512473029276,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.101512473029276,
+      "index": 21
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.18,
+      "normalized_value": 2.6278000744688046,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.6278000744688046,
+      "index": 22
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.2,
+      "normalized_value": 2.702984017531596,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.702984017531596,
+      "index": 23
+    },
+    {
+      "kpi": "PDCP SDU Volume; DL",
+      "value": 9015839069.0,
+      "normalized_value": 2.3552801835171873,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3552801835171873,
+      "index": 30
+    },
+    {
+      "kpi": "PDCP SDU Volume; UL",
+      "value": 639100566.1,
+      "normalized_value": 2.5836438126147874,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.5836438126147874,
+      "index": 30
+    },
+    {
+      "kpi": "ERAB Stp Att; QCI1",
+      "value": 3907346.0,
+      "normalized_value": -2.2170464372431704,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2170464372431704,
+      "index": 2
+    },
+    {
+      "kpi": "ERAB Stp SR; QCI1",
+      "value": 99.9,
+      "normalized_value": -4.160004565164665,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 4.160004565164665,
+      "index": 23
+    },
+    {
+      "kpi": "ERAB DR; RAN View; QCI1",
+      "value": 0.06,
+      "normalized_value": -2.2352517453216545,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2352517453216545,
+      "index": 12
+    },
+    {
+      "kpi": "ERAB DR; RAN View; QCI1",
+      "value": 0.09,
+      "normalized_value": 3.383083722648992,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 3.383083722648992,
+      "index": 23
+    },
+    {
+      "kpi": "DL MAC PDU VOL SCell",
+      "value": 28967900000000.0,
+      "normalized_value": 2.3971080948700103,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3971080948700103,
+      "index": 30
+    },
+    {
+      "kpi": "CA_UE_Scell_CONF_SCell_AVG",
+      "value": 2098.83,
+      "normalized_value": -2.0646851541090845,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0646851541090845,
+      "index": 2
+    },
+    {
+      "kpi": "CA_UE_Scell_CONF_SCell_AVG",
+      "value": 2082.69,
+      "normalized_value": -2.3351616933125956,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3351616933125956,
+      "index": 9
+    },
+    {
+      "kpi": "NUM_CA_UE_SERV_CELL_AVG",
+      "value": 3272.73,
+      "normalized_value": -2.3413632931299264,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3413632931299264,
+      "index": 9
+    },
+    {
+      "kpi": "NUM_NON_CA_UE_SERV_CELL_AVG",
+      "value": 333.41,
+      "normalized_value": -2.0962116524601107,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0962116524601107,
+      "index": 8
+    },
+    {
+      "kpi": "NUM_NON_CA_UE_SERV_CELL_AVG",
+      "value": 329.28,
+      "normalized_value": -2.788067953830201,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.788067953830201,
+      "index": 9
+    },
+    {
+      "kpi": "Avg nbr UEs in serv cell",
+      "value": 36.02,
+      "normalized_value": -2.4272497653780625,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.4272497653780625,
+      "index": 9
+    },
+    {
+      "kpi": "RLC_PDU_DL_VOL_CA_PCELL",
+      "value": 4839340000000.0,
+      "normalized_value": 2.021146302639916,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.021146302639916,
+      "index": 29
+    },
+    {
+      "kpi": "RLC_PDU_DL_VOL_CA_PCELL",
+      "value": 4912940000000.0,
+      "normalized_value": 2.3953694777265233,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3953694777265233,
+      "index": 30
+    },
+    {
+      "kpi": "RLC_VOL_DL_DRB_SCELL_UE",
+      "value": 2951800000000.0,
+      "normalized_value": 2.4210268554983925,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.4210268554983925,
+      "index": 30
+    },
+    {
+      "kpi": "RLC_VOL_DL_SRB_DRB_NON_CA",
+      "value": 1386660000000.0,
+      "normalized_value": 2.5224158864508763,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.5224158864508763,
+      "index": 23
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 142933000000000.0,
+      "normalized_value": 2.9261576448355893,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.9261576448355893,
+      "index": 20
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 138866000000000.0,
+      "normalized_value": 2.2272301737924556,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2272301737924556,
+      "index": 21
+    },
+    {
+      "kpi": "Total DL RLC Volume 1",
+      "value": 9323110.01,
+      "normalized_value": 2.3326913876206308,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.3326913876206308,
+      "index": 30
+    },
+    {
+      "kpi": "Average CQI",
+      "value": 8.9,
+      "normalized_value": -2.359986530436344,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.359986530436344,
+      "index": 23
+    },
+    {
+      "kpi": "Average CQI",
+      "value": 8.91,
+      "normalized_value": -2.149757845253799,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.149757845253799,
+      "index": 30
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.04,
+      "normalized_value": -2.5056457989039966,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.5056457989039966,
+      "index": 21
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.04,
+      "normalized_value": -2.5056457989039966,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.5056457989039966,
+      "index": 22
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.05,
+      "normalized_value": -2.403441825527634,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.403441825527634,
+      "index": 23
+    },
+    {
+      "kpi": "Avg SINR for PUSCH",
+      "value": 14.12,
+      "normalized_value": 2.341957461145132,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.341957461145132,
+      "index": 20
+    },
+    {
+      "kpi": "Avg SINR for PUSCH",
+      "value": 14.11,
+      "normalized_value": 2.2749826629020533,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2749826629020533,
+      "index": 21
+    },
+    {
+      "kpi": "Avg SINR for PUSCH",
+      "value": 13.46,
+      "normalized_value": -2.078379222898138,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.078379222898138,
+      "index": 30
+    },
+    {
+      "kpi": "Avg MCS PDSCH trans",
+      "value": 12.7,
+      "normalized_value": 2.2508384543477247,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2508384543477247,
+      "index": 9
+    },
+    {
+      "kpi": "Avg MCS PDSCH trans",
+      "value": 12.45,
+      "normalized_value": -2.088464535999221,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.088464535999221,
+      "index": 21
+    },
+    {
+      "kpi": "Avg MCS PUSCH trans",
+      "value": 16.54,
+      "normalized_value": 2.119347664449478,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.119347664449478,
+      "index": 20
+    },
+    {
+      "kpi": "Avg UE PWR Headroom PUSCH",
+      "value": 5.33,
+      "normalized_value": -2.728261829036056,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.728261829036056,
+      "index": 23
+    },
+    {
+      "kpi": "LTE Interference Power (Ave PUSCH)",
+      "value": -113.85,
+      "normalized_value": 2.366887491214167,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.366887491214167,
+      "index": 21
+    },
+    {
+      "kpi": "LTE Interference Power (Ave PUSCH)",
+      "value": -113.88,
+      "normalized_value": 2.1178823592199163,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.1178823592199163,
+      "index": 22
+    },
+    {
+      "kpi": "E-UTRAN PDCP SDU DL QCI1 LR",
+      "value": 0.13,
+      "normalized_value": 2.2901101101359247,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2901101101359247,
+      "index": 23
+    },
+    {
+      "kpi": "E-UTRAN PDCP SDU DL QCI1 LR",
+      "value": 0.13,
+      "normalized_value": 2.2901101101359247,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2901101101359247,
+      "index": 30
+    },
+    {
+      "kpi": "E-UTRAN PDCP SDU UL QCI1 LR",
+      "value": 0.44,
+      "normalized_value": 2.9415462958754257,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.9415462958754257,
+      "index": 23
+    },
+    {
+      "kpi": "QCI1 BLER; DL",
+      "value": 0.13,
+      "normalized_value": 2.1838568563966776,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.1838568563966776,
+      "index": 23
+    },
+    {
+      "kpi": "QCI1 BLER; DL",
+      "value": 0.13,
+      "normalized_value": 2.1838568563966776,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.1838568563966776,
+      "index": 30
+    },
+    {
+      "kpi": "QCI1 BLER; UL",
+      "value": 0.6,
+      "normalized_value": 2.2151331835495327,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.2151331835495327,
+      "index": 22
+    },
+    {
+      "kpi": "QCI1 BLER; UL",
+      "value": 0.61,
+      "normalized_value": 3.0326228108118642,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 3.0326228108118642,
+      "index": 23
+    },
+    {
+      "kpi": "Avg PDCP SDU Delay DL QCI1",
+      "value": 7.15,
+      "normalized_value": -2.181927452923046,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.181927452923046,
+      "index": 2
+    },
+    {
+      "kpi": "AVG_HARQ_DELAY_QCI1_UL",
+      "value": 4.51,
+      "normalized_value": -2.210476521041991,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.210476521041991,
+      "index": 2
+    },
+    {
+      "kpi": "AVG_HARQ_DELAY_QCI1_UL",
+      "value": 4.61,
+      "normalized_value": -2.03276704969266,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.03276704969266,
+      "index": 9
+    },
+    {
+      "kpi": "Avg Latency DL",
+      "value": 25.62,
+      "normalized_value": 2.246790827086453,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.246790827086453,
+      "index": 30
+    },
+    {
+      "kpi": "Max PDCP Thr DL",
+      "value": 800.05,
+      "normalized_value": 2.482686176163206,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.482686176163206,
+      "index": 6
+    },
+    {
+      "kpi": "Max PDCP Thr UL",
+      "value": 76.91,
+      "normalized_value": -2.0884934591429913,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0884934591429913,
+      "index": 15
+    },
+    {
+      "kpi": "RSRP_Avg",
+      "value": -96.2515325,
+      "normalized_value": -3.1040006292301134,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 3.1040006292301134,
+      "index": 30
+    },
+    {
+      "kpi": "Measured_RSRP_AVE",
+      "value": -96.25,
+      "normalized_value": -3.110059678549771,
+      "severity": "critical",
+      "method": "z_score",
+      "anomaly_score": 3.110059678549771,
+      "index": 30
+    },
+    {
+      "kpi": "Avg DL nonGBR IP thp CA active UEs 2 CCS",
+      "value": 17571.746,
+      "normalized_value": -2.1700781323885088,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.1700781323885088,
+      "index": 1
+    },
+    {
+      "kpi": "Avg DL nonGBR IP thp CA active UEs 2 CCS",
+      "value": 17576.045,
+      "normalized_value": -2.1607806032896137,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.1607806032896137,
+      "index": 2
+    },
+    {
+      "kpi": "Avg DL nonGBR IP thp CA active UEs 4 CCS",
+      "value": 28616.289,
+      "normalized_value": 2.8385013603544897,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.8385013603544897,
+      "index": 8
+    },
+    {
+      "kpi": "Avg DL nonGBR IP thp CA active UEs 4 CCS",
+      "value": 28133.303,
+      "normalized_value": 2.0986299792824945,
+      "severity": "warning",
+      "method": "z_score",
+      "anomaly_score": 2.0986299792824945,
+      "index": 15
+    },
+    {
+      "kpi": "RACH Stp Completion SR",
+      "value": 96.86,
+      "normalized_value": -2.5417827814692044,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.029999999999986926,
+      "index": 23
+    },
+    {
+      "kpi": "RRC stp att",
+      "value": 4118754995.0,
+      "normalized_value": -2.170018912221343,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 9209881.75,
+      "index": 2
+    },
+    {
+      "kpi": "RRC stp att",
+      "value": 4097489162.0,
+      "normalized_value": -2.335110567078889,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 30475714.75,
+      "index": 9
+    },
+    {
+      "kpi": "RRC conn stp SR",
+      "value": 99.72,
+      "normalized_value": -2.2622521325833724,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.0049999999999954525,
+      "index": 23
+    },
+    {
+      "kpi": "RRC conn stp SR",
+      "value": 99.72,
+      "normalized_value": -2.2622521325833724,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.0049999999999954525,
+      "index": 30
+    },
+    {
+      "kpi": "E-UTRAN avg RRC conn UEs",
+      "value": 15.34,
+      "normalized_value": -2.4095310521200424,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.027499999999999858,
+      "index": 9
+    },
+    {
+      "kpi": "E-RAB SAtt",
+      "value": 5831340398.0,
+      "normalized_value": -2.194721130352389,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 14123297.25,
+      "index": 1
+    },
+    {
+      "kpi": "E-RAB SAtt",
+      "value": 5773921440.0,
+      "normalized_value": -2.4269632463833917,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 71542255.25,
+      "index": 2
+    },
+    {
+      "kpi": "E-RAB Stp Att; QCI8",
+      "value": 3233248993.0,
+      "normalized_value": -2.3282839547938474,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 15933679.0,
+      "index": 2
+    },
+    {
+      "kpi": "E-UTRAN Intra-Freq HO SR",
+      "value": 99.11,
+      "normalized_value": -2.6572696559497584,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 1.4210854715202004e-14,
+      "index": 30
+    },
+    {
+      "kpi": "Intra eNB HO SR",
+      "value": 97.73,
+      "normalized_value": -3.0144815018031195,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.0625,
+      "index": 30
+    },
+    {
+      "kpi": "inter eNB E-UTRAN HO SR X2",
+      "value": 98.6,
+      "normalized_value": -2.3309871163532567,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.022500000000007958,
+      "index": 23
+    },
+    {
+      "kpi": "inter eNB E-UTRAN HO SR X2",
+      "value": 98.57,
+      "normalized_value": -2.983944350753515,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.052500000000009095,
+      "index": 30
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 6.95,
+      "normalized_value": 1.7631847292467215,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.20500000000000007,
+      "index": 20
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.04,
+      "normalized_value": 2.101512473029276,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.040000000000000036,
+      "index": 21
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.18,
+      "normalized_value": 2.6278000744688046,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.17999999999999972,
+      "index": 22
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 7.2,
+      "normalized_value": 2.702984017531596,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.20000000000000018,
+      "index": 23
+    },
+    {
+      "kpi": "Avg PRB usage per TTI UL",
+      "value": 6.85,
+      "normalized_value": 1.3872650139327698,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.10499999999999954,
+      "index": 24
+    },
+    {
+      "kpi": "PDCP SDU Volume; UL",
+      "value": 639100566.1,
+      "normalized_value": 2.5836438126147874,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 5367622.600000143,
+      "index": 30
+    },
+    {
+      "kpi": "ERAB Stp SR; QCI1",
+      "value": 99.9,
+      "normalized_value": -4.160004565164665,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 2.842170943040401e-14,
+      "index": 23
+    },
+    {
+      "kpi": "NUM_NON_CA_UE_SERV_CELL_AVG",
+      "value": 329.28,
+      "normalized_value": -2.788067953830201,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 2.865000000000009,
+      "index": 9
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 116585000000000.0,
+      "normalized_value": -1.6018337510445397,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 999000000000.0,
+      "index": 3
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 142933000000000.0,
+      "normalized_value": 2.9261576448355893,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 4911000000000.0,
+      "index": 20
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 138866000000000.0,
+      "normalized_value": 2.2272301737924556,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 844000000000.0,
+      "index": 21
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 136382000000000.0,
+      "normalized_value": 1.800346515550227,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 3934000000000.0,
+      "index": 22
+    },
+    {
+      "kpi": "PDCP_PDU_X2_DL_SCG",
+      "value": 136410000000000.0,
+      "normalized_value": 1.8051584086383035,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 3962000000000.0,
+      "index": 23
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.23,
+      "normalized_value": -0.563770304753393,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.010000000000001563,
+      "index": 19
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.09,
+      "normalized_value": -1.9946259320222552,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.09000000000000341,
+      "index": 20
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.04,
+      "normalized_value": -2.5056457989039966,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.14000000000000412,
+      "index": 21
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.04,
+      "normalized_value": -2.5056457989039966,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.14000000000000412,
+      "index": 22
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.05,
+      "normalized_value": -2.403441825527634,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.13000000000000256,
+      "index": 23
+    },
+    {
+      "kpi": "Avg SINR for PUCCH",
+      "value": 10.15,
+      "normalized_value": -1.3814020917641687,
+      "severity": "critical",
+      "method": "iqr",
+      "anomaly_score": 0.030000000000002913,
+      "index": 24
+    },
+    {
+      "kpi": "Avg UE PWR Headroom PUSCH",
+      "value": 5.33,
+      "normalized_value": -2.728261829036056,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.03999999999999915,
+      "index": 23
+    },
+    {
+      "kpi": "E-UTRAN PDCP SDU UL QCI1 LR",
+      "value": 0.44,
+      "normalized_value": 2.9415462958754257,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.019999999999999962,
+      "index": 23
+    },
+    {
+      "kpi": "QCI1 BLER; UL",
+      "value": 0.61,
+      "normalized_value": 3.0326228108118642,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 1.1102230246251565e-16,
+      "index": 23
+    },
+    {
+      "kpi": "RSRP_Avg",
+      "value": -96.2515325,
+      "normalized_value": -3.1040006292301134,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.17329672249999817,
+      "index": 30
+    },
+    {
+      "kpi": "Measured_RSRP_AVE",
+      "value": -96.25,
+      "normalized_value": -3.110059678549771,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 0.1775000000000091,
+      "index": 30
+    },
+    {
+      "kpi": "Avg DL nonGBR IP thp CA active UEs 4 CCS",
+      "value": 28616.289,
+      "normalized_value": 2.8385013603544897,
+      "severity": "warning",
+      "method": "iqr",
+      "anomaly_score": 456.604000000003,
+      "index": 8
+    },
+    {
+      "kpi": "NUM_NON_CA_UE_SERV_CELL_AVG",
+      "value": 329.28,
+      "normalized_value": -2.788067953830201,
+      "severity": "critical",
+      "method": "isolation_forest",
+      "anomaly_score": -0.5750658856946584,
+      "index": 9
+    },
+    {
+      "kpi": "ERAB Stp SR; QCI1",
+      "value": 99.9,
+      "normalized_value": -4.160004565164665,
+      "severity": "critical",
+      "method": "isolation_forest",
+      "anomaly_score": -0.6214983821508154,
+      "index": 23
+    },
+    {
+      "kpi": "Measured_RSRP_AVE",
+      "value": -96.25,
+      "normalized_value": -3.110059678549771,
+      "severity": "critical",
+      "method": "isolation_forest",
+      "anomaly_score": -0.5911314745293862,
+      "index": 30
+    }
+  ],
+  "network_classification": {
+    "network_status": "critical",
+    "critical_count": 20,
+    "warning_count": 104,
+    "total_anomalies": 124,
+    "affected_kpis": [
+      "RSRP_Avg",
+      "Comp Cont based RACH stp SR",
+      "Max PDCP Thr DL",
+      "E-UTRAN avg IP sched thp UL; QCI8",
+      "Avg DL nonGBR IP thp CA active UEs 4 CCS",
+      "Avg SINR for PUSCH",
+      "RRC_CONNECTED_UE_AVG",
+      "Avg SINR for PUCCH",
+      "Avg MCS PUSCH trans",
+      "DL MAC PDU VOL SCell",
+      "Avg MCS PDSCH trans",
+      "E-UTRAN PDCP SDU UL QCI1 LR",
+      "ERAB Stp Att; QCI1",
+      "RACH stp att",
+      "AVG_HARQ_DELAY_QCI1_UL",
+      "E-RAB SAtt",
+      "Avg PRB usage per TTI UL",
+      "RLC_PDU_DL_VOL_CA_PCELL",
+      "E-UTRAN avg IP sched thp DL; QCI8",
+      "CA_UE_Scell_CONF_SCell_AVG",
+      "QCI1 BLER; DL",
+      "NUM_NON_CA_UE_SERV_CELL_AVG",
+      "Avg PDCP SDU Delay DL QCI1",
+      "NUM_CA_UE_SERV_CELL_AVG",
+      "E-RAB Stp Att; QCI8",
+      "Total DL RLC Volume 1",
+      "E-UTRAN avg RRC conn UEs",
+      "ATT_INTRA_ENB_HO",
+      "PDCP_PDU_X2_DL_SCG",
+      "LTE Interference Power (Ave PUSCH)",
+      "E-UTRAN Inter-Freq HO SR",
+      "Max PDCP Thr UL",
+      "E-UTRAN Intra-Freq HO SR",
+      "PDCP SDU Volume; UL",
+      "Intra eNB HO SR",
+      "RRC conn stp SR",
+      "E-UTRAN Avg PRB usage per TTI DL",
+      "RACH Stp Completion SR",
+      "ERAB DR; RAN View; QCI1",
+      "Average CQI",
+      "Avg DL nonGBR IP thp CA active UEs 2 CCS",
+      "PDCP SDU Volume; DL",
+      "ERAB Stp SR; QCI1",
+      "E-UTRAN PDCP SDU DL QCI1 LR",
+      "RLC_VOL_DL_SRB_DRB_NON_CA",
+      "QCI1 BLER; UL",
+      "RRC stp att",
+      "Avg UE PWR Headroom PUSCH",
+      "Avg Latency DL",
+      "Measured_RSRP_AVE",
+      "inter eNB E-UTRAN HO SR X2",
+      "RLC_VOL_DL_DRB_SCELL_UE",
+      "Avg nbr UEs in serv cell"
+    ],
+    "affected_kpi_count": 53
+  }
+}

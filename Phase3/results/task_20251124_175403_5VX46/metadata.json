@@ -1,0 +1,19 @@
+{
+  "task_id": "task_20251124_175403_5VX46",
+  "filename": "task_20251124_175403_5VX46.csv",
+  "file_size_bytes": 37588,
+  "format": "csv",
+  "sensitivity": "medium",
+  "methods": [
+    "z_score",
+    "iqr",
+    "isolation_forest"
+  ],
+  "created_at": "2025-11-24T17:54:03.751519",
+  "started_at": "2025-11-24T17:54:03.752519",
+  "completed_at": "2025-11-24T17:54:04.094488",
+  "status": "completed",
+  "error_message": null,
+  "data_points": 31,
+  "kpis_count": 60
+}
